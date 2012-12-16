@@ -1,32 +1,53 @@
-
 $(function() {
-/* GEO & LAN */
+    /* GEO & LAN */
 
-var lang = (navigator.language) ? navigator.language : navigator.userLanguage;
+    var lang = (navigator.language) ? navigator.language: navigator.userLanguage;
 
-if (lang.indexOf('en') > -1) lang = 'English'; 
-else if (lang.indexOf('de') > -1) lang = 'German'; 
-else if (lang.indexOf('it') > -1) lang = 'Italian'; 
-else if (lang.indexOf('fr') > -1) lang = 'French'; 
-else if (lang.indexOf('es') > -1) lang = 'Spanish'; 
-else if (lang.indexOf('cn') > -1) lang = 'Chinese'; 
-else if (lang.indexOf('gr') > -1) lang = 'Greek'; 
-else if (lang.indexOf('pl') > -1) lang = 'Polish'; 
-else if (lang.indexOf('jp') > -1) lang = 'Japanese'; 
-else if (lang.indexOf('in') > -1) lang = 'Indian';
-else if (lang.indexOf('ru') > -1) lang = 'Russian'; 
-else if (lang.indexOf('kr') > -1) lang = 'Korean'; 
+    var lanc = lang;
 
-$.getJSON('http://api.wipmania.com/jsonp?callback=?', function(data) {
+    if (lang.indexOf('en') > -1)
+        lang = 'English';
+    else if (lang.indexOf('de') > -1)
+        lang = 'German';
+    else if (lang.indexOf('it') > -1)
+        lang = 'Italian';
+    else if (lang.indexOf('fr') > -1)
+        lang = 'French';
+    else if (lang.indexOf('es') > -1)
+        lang = 'Spanish';
+    else if (lang.indexOf('cn') > -1)
+        lang = 'Chinese';
+    else if (lang.indexOf('gr') > -1)
+        lang = 'Greek';
+    else if (lang.indexOf('pl') > -1)
+        lang = 'Polish';
+    else if (lang.indexOf('jp') > -1)
+        lang = 'Japanese';
+    else if (lang.indexOf('in') > -1)
+        lang = 'Indian';
+    else if (lang.indexOf('ru') > -1)
+        lang = 'Russian';
+    else if (lang.indexOf('kr') > -1)
+        lang = 'Korean';
 
-var country = data.address.country;
-if (country ==='United Kingdom' || country ==='United States of America' || country ==='USA' || country ==='United States') country = 'the ' + country;
-$('#country').append(country);
-});
+    $.getJSON('http://api.wipmania.com/jsonp?callback=?', function(data) {
 
-/* TECHNOLOGY */
+        var country = data.address.country;
+        var longitude = data.longitude;
+        var latitude = data.latitude;
 
-var BrowserDetect = {
+        if (country === 'United Kingdom' || country === 'United States of America' || country === 'USA' || country === 'United States')
+            country = 'the ' + country;
+
+        $('#country').append(country);
+        $('#longitude').append(longitude);
+        $('#latitude').append(latitude);
+
+    });
+
+    /* TECHNOLOGY */
+
+    var BrowserDetect = {
         init: function() {
             this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
             this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
@@ -38,13 +59,16 @@ var BrowserDetect = {
                 var dataProp = data[i].prop;
                 this.versionSearchString = data[i].versionSearch || data[i].identity;
                 if (dataString) {
-                    if (dataString.indexOf(data[i].subString) != -1) return data[i].identity;
-                } else if (dataProp) return data[i].identity;
+                    if (dataString.indexOf(data[i].subString) != -1)
+                        return data[i].identity;
+                } else if (dataProp)
+                    return data[i].identity;
             }
         },
         searchVersion: function(dataString) {
             var index = dataString.indexOf(this.versionSearchString);
-            if (index == -1) return;
+            if (index == -1)
+                return;
             return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
         },
         dataBrowser: [{
@@ -81,7 +105,8 @@ var BrowserDetect = {
             string: navigator.vendor,
             subString: "Camino",
             identity: "Camino"
-        }, { // for newer Netscapes (6+)
+        }, {
+            // for newer Netscapes (6+)
             string: navigator.userAgent,
             subString: "Netscape",
             identity: "Netscape"
@@ -95,7 +120,8 @@ var BrowserDetect = {
             subString: "Gecko",
             identity: "Mozilla",
             versionSearch: "rv"
-        }, { // for older Netscapes (4-)
+        }, {
+            // for older Netscapes (4-)
             string: navigator.userAgent,
             subString: "Mozilla",
             identity: "Netscape",
@@ -118,57 +144,71 @@ var BrowserDetect = {
             subString: "Linux",
             identity: "Linux"
         }]
-    };
+        };
     BrowserDetect.init();
     var os = BrowserDetect.OS;
     var browser = BrowserDetect.browser;
     var version = BrowserDetect.version;
 
-if (os === 'Windows') ost = '';
-else if (os === 'Mac') ost = '';
-else if (os === 'Linux') ost = 'are tech-savvy';
+    if (os === 'Windows')
+        ost = '';
+    else if (os === 'Mac')
+        ost = '';
+    else if (os === 'Linux')
+        ost = 'are tech-savvy';
 
-var width = screen.width;
-var height = screen.height;
+    var width = screen.width;
+    var height = screen.height;
 
-/* REFERER */
+    /* REFERER */
 
-var referer = document.referrer;
+    var referer = document.referrer;
 
-/* WEB HISTORY */
+    /* WEB HISTORY */
 
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '205602882797935',
+            status: true,
+            cookie: true,
+            xfbml: true
+        });
+        FB.getLoginStatus(function(response) {
+            if (response.status != "unknown") {
+                show_login_status("Facebook", true);
+            } else {
+                show_login_status("Facebook", false);
+            }
+        });
+    };
+    // Load the SDK Asynchronously
+    (function(d) {
+        var js,
+        id = 'facebook-jssdk';
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+    } (document));
 
- window.fbAsyncInit = function(){
-  FB.init({ appId:'205602882797935', status:true,  cookie:true, xfbml:true});
-  FB.getLoginStatus(function(response){
-   if (response.status != "unknown")
-   {
-    show_login_status("Facebook", true);
-   }else{
-    show_login_status("Facebook", false);
-   }
-  });
- };
- // Load the SDK Asynchronously
- (function(d){
-  var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-  js = d.createElement('script'); js.id = id; js.async = true;
-  js.src = "//connect.facebook.net/en_US/all.js";
-  d.getElementsByTagName('head')[0].appendChild(js);
- }(document));
+    /* INJECT */
 
-/* INJECT */
+    $('#lang').append(lang);
+    $('#lanc').append(lanc);
+    $('#os').append(os);
+    $('#ost').append(ost);
+    $('#browser').append(browser);
+    $('#version').append(version);
+    $('#width').append(width);
+    $('#height').append(height);
+    $('#referer').append(referer);
 
-$('#lang').append(lang);
-$('#os').append(os);
-$('#ost').append(ost);
-$('#browser').append(browser);
-$('#version').append(version);
-$('#width').append(width);
-$('#height').append(height);
-$('#referer').append(referer);
-
-
-
+    $('#back').live('click', function() {
+        history.back();
+    });
 
 });

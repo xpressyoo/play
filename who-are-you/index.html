@@ -2,20 +2,23 @@
 <html itemscope itemtype="http://schema.org/Person" dir="ltr" lang="en">
 <head>
 <title>Who Are You | Play</title>
-
+<style>
+.wrap{margin:2% 0 0 5%;font: 15px Helvetica, Arial, sans-serif;color:#333}
+.red{color:red}
+.green{color:green}
+li{margin-bottom:7px}
+</style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="a.js"></script>
 <script>
 function show_login_status(network, status)
-			{
-				if (status)
-				{
-					$("#" + network + "Status").html("You are currently logged in to <span class='red'>" + network + "</span>");
-				}else{
-					$("#" + network + "Status").html("You are not currently logged in to <span class='green'>" + network + "</span>");
-				}
-			}
-
+	{
+		if (status) {
+		$("#" + network + "Status").html("You are currently logged into <span class='red'>" + network + "</span>");
+		}else{
+		$("#" + network + "Status").html("You are not currently logged into <span class='green'>" + network + "</span>");
+		}
+	}
 </script>
 </head>
 
@@ -36,20 +39,25 @@ src="https://plus.google.com/up/?continue=https://www.google.com/intl/en/images/
  
 <div id="fb-root"></div>
 
-<h2>I know that:</h2>
+<div class="wrap">
+<h1>I Know Who You're!</h1>
+<h2>What your Browser Can Reveal About Yourself...</h2>
 
+<h3>An Example of Data Retrieved While Sniffing your Browser:</h3>
 <ul>
-<li>You are in <span id="country"></span>
-<li>You speak <span id="lang"></span>
-<li>You <span id="ost"></span> (i.e. your OS is <span id="os"></span>).
-<li><span id="browser"></span><span id="version"></span>
-<li><span id="width"></span>x<span id="height"></span>px
-<li><span id="referer"></span>
+<li>You are in <span id="country"></span>. Geographical coordinates associated to your IP address: longitude: <span id="longitude"></span> | latitude: <span id="latitude"></span>
+<li>You speak <span id="lang"></span> (code: <span id="lanc"></span>).
+<li>You use a <span id="os"></span> machine with <span id="browser"></span>, version <span id="version"></span>.
+<li>Your screen resolution is <span id="width"></span>x<span id="height"></span> (in px).
+<li>You came here from <span id="referer"></span>
 <li><span id="FacebookStatus" class="outputStatus"></span>
 <li><span id="TwitterStatus" class="outputStatus"></span>
 <li><span id="GmailStatus" class="outputStatus"></span>
 <li><span id="GooglePlusStatus" class="outputStatus"></span>
 </ul>
+<br>
+<a id="back" href="#">&laquo; Go Back to the Post</a>
+</div>
 
 </body>
 </html>
